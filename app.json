@@ -2,7 +2,6 @@
   "expo": {
     "name": "ManhaDeLuz",
     "slug": "ManhaDeLuz",
-    "entryPoint": "./src/App.js",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -30,9 +29,5 @@
     "web": {
       "favicon": "./assets/favicon.png"
     }
-  },
-  "soundcloud_fetch_user_agent": "Mozilla/5.0",
-  "soundcloud_url": "https://soundcloud.com",
-  "scrapper_client_id_regex": "client_id:\"[0-9A-z]{32}\"",
-  "scrapper_resources_regex": "src=\".*[.js|.json]\""
+  }
 }

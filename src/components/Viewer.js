@@ -1,30 +1,27 @@
 import {
   StyleSheet,
   View,
-  Text
+  Text,
 } from 'react-native';
-
 import Image from 'react-native-image-progress';
+import { Pie as ProgressPie } from 'react-native-progress';
 
-export default (props) => {
-  const soundData = props.soundData;
-
+export default function Viewer({ soundData }) {
   return (
     <View style={styles.container}>
-      { soundData ?
-        <>
-          <Text style={styles.title}>{soundData.title}</Text>
-          <View style={styles.imageContainer}>
-            <Image
-              indicatorProps={{size: 50, color:"white"}}
-              source={{ uri: soundData.artwork_url }}
-              style={styles.image}
-            />
-            </View>
-        </>
-        : <></>
-      }
-    </View>
+      <Text style={styles.title}>{soundData.title}</Text>
+      <View style={styles.imageContainer}>
+        <Image
+          source={{ uri: soundData.artwork_url }}
+          indicator={ProgressPie}
+          indicatorProps={{
+            size: 80,
+            color: "#fff",
+          }}
+          style={styles.image}
+        />
+      </View>
+    </View >
   );
 };
 

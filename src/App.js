@@ -8,18 +8,18 @@ import {
   Image,
 } from 'react-native';
 
-import bgImg from '.../assets/bg.jpg';
-
-import SearchButton from './components/SearchButton';
+import LoadClientID from './components/LoadClientID';
+import LoadSoundData from './components/LoadSoundData';
+import Viewer from './components/Viewer';
 import DownloadButton from './components/DownloadButton';
 import ShareButton from './components/ShareButton';
-import Viewer from './components/Viewer';
-import GetClientID from './components/GetClientID';
 
-export default () => {
-  const [SoundData, setSoundData] = useState(null);
-  const [DownloadedFile, setDownloadedFile] = useState(null);
-  const [ClientID, setClientID] = useState(null);
+import bgImg from '../assets/bg.jpg';
+
+export default function App() {
+  const [soundData, setSoundData] = useState();
+  const [downloadedFile, setDownloadedFile] = useState();
+  const [clientID, setClientID] = useState();
 
   return (
     <>
@@ -33,41 +33,34 @@ export default () => {
         />
       </View>
       <SafeAreaView style={styles.container}>
-        {ClientID ? <>
-          <Viewer soundData={SoundData} />
-          {!SoundData ?
-            <SearchButton
-              client_id={ClientID}
-              onFetch={(data, error) => {
-                const collection = data?.collection?.find(val => val.title.toLowerCase().includes("manhã de luz"));
-                console.log(collection);
-
-                if (error) return alert(`Ocorreu um erro ao tentar pegar os dados: ${error.error || error}`);
-                else if (collection) setSoundData(collection);
-                else alert(`Collection not found!\nList of collections(${data?.collection?.length || 0}): "${data?.collection?.map(val => val.title).join(`", "`)}"`);
-              }} />
-            : <></>}
-          {SoundData && !DownloadedFile ?
-            <DownloadButton
-              client_id={ClientID}
-              soundData={SoundData}
-              onDownloaded={(filename, error) => {
-                if (error) alert(`Ocorreu um erro ao tentar fazer download: ${error.error}`);
-                else setDownloadedFile(filename);
-              }}
-            />
-            : <></>}
-          {DownloadedFile ?
-            <ShareButton
-              soundData={SoundData}
-              filename={DownloadedFile}
-            />
-            : <></>}
-        </> : <GetClientID
-          onClientID={client_id => setClientID(client_id)}
-        />
-        }
-        {ClientID ? <Text style={styles.client_id}>ClientID: {ClientID}</Text> : <></>}
+        {!clientID ? (
+          <LoadClientID onClientID={setClientID} />
+        ) : (
+          <>
+            {!soundData && (
+              <LoadSoundData
+                clientId={clientID}
+                onSoundData={setSoundData}
+              />
+            )}
+            {!!soundData && <Viewer soundData={soundData} />}
+            {!!soundData && !downloadedFile && (
+              <DownloadButton
+                clientId={clientID}
+                soundData={soundData}
+                onFinished={setDownloadedFile}
+                onError={(error) => alert(`Ocorreu um erro ao tentar baixar: ${error}`)}
+              />
+            )}
+            {!!soundData && downloadedFile && (
+              <ShareButton
+                soundData={soundData}
+                filename={downloadedFile}
+              />
+            )}
+            <Text style={styles.clientId}>ClientID: {clientID}</Text>
+          </>
+        )}
       </SafeAreaView>
     </>
   );
@@ -95,7 +88,7 @@ const styles = StyleSheet.create({
     height: "100%",
     opacity: 0.6,
   },
-  client_id: {
+  clientId: {
     position: "absolute",
     bottom: 10,
     left: 10,
