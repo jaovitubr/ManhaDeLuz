@@ -1,14 +1,16 @@
 {
   "expo": {
-    "name": "ManhaDeLuz",
+    "name": "Manhã de Luz",
+    "description": "Baixe e compartilhe o audio da Manhã de Luz todos os dias para seus amigos e familiares.",
+    "githubUrl": "https://github.com/jaovitubr/ManhaDeLuz",
     "slug": "ManhaDeLuz",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {
