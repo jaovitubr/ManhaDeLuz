@@ -7,6 +7,7 @@ import {
   StatusBar,
   Image,
 } from 'react-native';
+import * as Updates from "expo-updates";
 
 import LoadClientID from './components/LoadClientID';
 import LoadSoundData from './components/LoadSoundData';
@@ -20,6 +21,19 @@ export default function App() {
   const [soundData, setSoundData] = useState();
   const [downloadedFile, setDownloadedFile] = useState();
   const [clientID, setClientID] = useState();
+
+  useEffect(() => {
+    async function updateApp() {
+      const { isAvailable } = await Updates.checkForUpdateAsync();
+
+      if (isAvailable) {
+        await Updates.fetchUpdateAsync();
+        await Updates.reloadAsync();
+      }
+    }
+
+    updateApp();
+  }, []);
 
   return (
     <>
