@@ -4,13 +4,15 @@
   },
   "build": {
     "development": {
-      "developmentClient": true,
       "distribution": "internal"
     },
     "preview": {
+      "channel": "staging",
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "channel": "production"
+    }
   },
   "submit": {
     "production": {}
