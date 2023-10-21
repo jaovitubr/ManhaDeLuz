@@ -32,7 +32,7 @@ export default function App() {
       }
     }
 
-    updateApp();
+    if (!__DEV__) updateApp();
   }, []);
 
   return (
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   bgImage: {
     width: "100%",
     height: "100%",
-    opacity: 0.6,
+    opacity: 0.4,
   },
   clientId: {
     position: "absolute",

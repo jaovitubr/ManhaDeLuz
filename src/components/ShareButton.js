@@ -10,8 +10,8 @@ import * as Clipboard from 'expo-clipboard';
 import Icon from '@expo/vector-icons/FontAwesome';
 
 export default function ShareButton({ soundData, filename }) {
-  async function Share() {
-    const title = `Programa ${soundData.title}\n*Rádio Educadora FM 90.9 — Jacarezinho - PR*`;
+  async function handleShare() {
+    const title = `Programa ${soundData.title}`;
 
     await Clipboard.setStringAsync(title);
     await Sharing.shareAsync(filename, {
@@ -22,7 +22,7 @@ export default function ShareButton({ soundData, filename }) {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={Share}>
+      <TouchableOpacity style={styles.button} onPress={handleShare}>
         <Icon name="share-alt" size={20} color="white" />
         <Text style={styles.buttonText}>Compartilhar</Text>
       </TouchableOpacity>
