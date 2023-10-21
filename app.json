@@ -4,7 +4,7 @@
     "description": "Baixe e compartilhe o audio da Manhã de Luz todos os dias para seus amigos e familiares.",
     "githubUrl": "https://github.com/jaovitubr/ManhaDeLuz",
     "slug": "ManhaDeLuz",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
