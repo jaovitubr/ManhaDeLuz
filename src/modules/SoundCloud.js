@@ -37,30 +37,34 @@ export async function GetCollection(clientId) {
 
 export function GetClientID() {
     return new Promise(async (resolve, reject) => {
-        const savedClientId = await AsyncStorage.getItem("clientId");
-        const isValidClientId = await CheckClientID(savedClientId);
+        try {
+            const savedClientId = await AsyncStorage.getItem("clientId");
+            const isValidClientId = await CheckClientID(savedClientId);
 
-        if (isValidClientId) return resolve(savedClientId);
+            if (isValidClientId) return resolve(savedClientId);
 
-        const body = await fetch("https://soundcloud.com", { headers }).then(res => res.text());
-        if (!body) return reject("Não foi possível acessar o SoundCloud");
-        const resourcesUrls = MatchAll(body, /src="(.*[.js|.json])"/g);
+            const body = await fetch("https://soundcloud.com", { headers }).then(res => res.text());
+            if (!body) return reject("Não foi possível acessar o SoundCloud");
+            const resourcesUrls = MatchAll(body, /src="(.*[.js|.json])"/g);
 
-        for (const url of resourcesUrls) {
-            const resourceBody = await fetch(url, { headers }).then(res => res.text());
-            if (!resourceBody) continue;
+            for (const url of resourcesUrls) {
+                const resourceBody = await fetch(url, { headers }).then(res => res.text());
+                if (!resourceBody) continue;
 
-            const clientIds = MatchAll(resourceBody, /client_id:"([0-9A-z]{32})"/g);
+                const clientIds = MatchAll(resourceBody, /client_id:"([0-9A-z]{32})"/g);
 
-            for (const clientId of clientIds || []) {
-                if (await CheckClientID(clientId)) {
-                    await AsyncStorage.setItem("clientId", clientId);
-                    return resolve(clientId);
+                for (const clientId of clientIds || []) {
+                    if (await CheckClientID(clientId)) {
+                        await AsyncStorage.setItem("clientId", clientId);
+                        return resolve(clientId);
+                    }
                 }
             }
-        }
 
-        reject("Não foi possível encontrar um Client ID válido");
+            reject("Não foi possível encontrar um Client ID válido");
+        } catch (error) {
+            reject(error);
+        }
     });
 }
 
